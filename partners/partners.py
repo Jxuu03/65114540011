@@ -2,11 +2,9 @@ from openpyxl import load_workbook
 
 if __name__ == '__main__':
     wb = load_workbook('Me & My partner.xlsx')
-    sheet = wb.active
+    groups = []
 
-    valid_pairs = []
-
-    for row in sheet:
+    for row in wb.active.iter_rows(min_row=2):
         values = [cell.value for cell in row]
 
         if values[1] is not None and values[2] is not None:
@@ -14,10 +12,11 @@ if __name__ == '__main__':
 
             if values[1] < values[2]:
                 pair = (values[2], values[1])
-            if pair not in valid_pairs:
-                valid_pairs.append(pair)
+            if pair not in groups:
+                groups.append(pair)
 
 
-    print(f"Total number of valid pairs: {len(valid_pairs)}")
-    print(valid_pairs)
+    print(f"Total number of valid pairs: {len(groups)}")
+    for pair in groups:
+        print(pair)
     
